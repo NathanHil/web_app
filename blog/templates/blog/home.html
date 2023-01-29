@@ -1,0 +1,76 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+	<div class="title-container">
+		<h2><img src="{% static 'img/logo-white.svg' %}" alt="pahlisch" width="180" height="55" style="padding-right:10px; margin-bottom:-7px;"/> web app</h2>
+	</div>
+	<div class="spacer"></div>
+	{% if user.is_authenticated %}
+<!-- 	<div class="block-content">
+		<h5>Quick Links</h5>
+		<div class="quick-links">
+			<a href="{% url 'items_import' page_name='loantransaction' %}">Add Loan Transactions</a>
+			<a href="{% url 'items_import' page_name='traffic' %}">Add Traffic</a>
+			<br/>
+			<a href="{% url 'items_import' page_name='jobfmv' %}">Update Job FMV(s)</a>
+			<a href="{% url 'items_import' page_name='baseprice' %}">Update Base Price(s)</a>
+		</div>
+		<div class="divider"></div>
+	</div> -->
+	{% endif %}
+	<div class="text-block">
+		<p>Choose one of the below links to view and update items in each of the categories as well as see associated views for each item</p>
+		<div class="divider"></div>
+	</div>
+	<div class="full-width">
+		<div class="links-container">
+
+			<a href="/community" class="link-block communities">
+				<div class="block-cover">
+					<p>Communities</p>
+				</div>
+			</a>
+			<a href="/job" class="link-block jobs">
+				<div class="block-cover">
+					<p>Jobs</p>
+				</div>
+			</a>
+			<a href="/lender" class="link-block lenders">
+				<div class="block-cover">
+					<p>Lenders</p>
+				</div>
+			</a>
+			<a href="/plat" class="link-block plats">
+				<div class="block-cover">
+					<p>Plats</p>
+				</div>
+			</a>
+			<a href="/plan" class="link-block plans">
+				<div class="block-cover">
+					<p>Plans</p>
+				</div>
+			</a>
+			<a href="/traffic" class="link-block traffic">
+				<div class="block-cover">
+					<p>Traffic</p>
+				</div>
+			</a>
+			<!--<a href="/masterloanpackage" class="link-block loanpackage">
+				<div class="block-cover">
+					<p>Loan Packages</p>
+				</div>
+			</a>
+			<a href="/tieout/progress" class="link-block tieout">
+				<div class="block-cover">
+					<p>Tieout 3</p>
+				</div>
+			</a>
+			<a href="/proformamilestone" class="link-block proforma">
+				<div class="block-cover">
+					<p>Proforma</p>
+				</div>
+			</a> -->
+		</div>
+	</div>
+
+{% endblock content %}

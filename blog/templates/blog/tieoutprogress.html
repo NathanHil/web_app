@@ -1,0 +1,8 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+{% load render_table from django_tables2 %}
+
+{% render_table table 'django_tables2/bootstrap4.html' %}
+
+{% endblock content %}

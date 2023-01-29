@@ -1,0 +1,175 @@
+{% load compile_static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta name="robots" content="noindex">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="pahlisch homes internal web app for easy overviews of pahlisch data and simple data manipulation">
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/ico" href="{% static 'img/favicon.png' %}"/>
+
+	<!-- FontAwesome -->
+	<link href="{% static 'css/fontawesome/css/all.css' %}" rel="stylesheet">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<!-- Loading animation CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/loader.css' %}">
+
+	<!-- LESS CSS -->
+	<link rel="stylesheet/less" type="text/css" href="{% static 'css/main.less' %}">
+	<script src='//cdn.jsdelivr.net/npm/less@3.13' type="text/javascript"></script>
+
+	<style type="text/css">
+		input.success, textarea.success, select.success {
+			@color-rgba: rgba(red(@brand-success), green(@brand-success), blue(@brand-success), .6);
+			border-color: @color-rgba;
+			.box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
+		}
+	</style>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	{% if page_title %}
+		<title style="text-transform:capitalize;">{{page_title}} | Pahlisch App</title>
+	{% elif page_name %}
+		<title style="text-transform:capitalize;">{{page_name}} | Pahlisch App</title>
+	{% else %}	
+		<title>Pahlisch App</title>
+	{% endif %}
+
+</head>
+<body class="{% if request.path == "/" %}home-body{% endif %}">
+
+	<header class="site-header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark static-top">
+			<div class="container">
+				<a class="navbar-brand mr-4" href="{% url 'blog-home' %}" style="text-transform:uppercase;"><img src="{% static 'img/logo-white.svg' %}" alt="pahlisch" width="120" height="37" style="padding-right:7px; margin-bottom:-5px;"/><sup>web app</sup></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarToggle">
+					<div class="navbar-nav mr-auto">			  
+						<a class="nav-item nav-link" href="{% url 'community-home' %}">Communities</a>
+						<a class="nav-item nav-link" href="{% url 'plat-home' %}">Plats</a>
+						<a class="nav-item nav-link" href="{% url 'job-home' %}">Jobs</a>
+						<a class="nav-item nav-link" href="{% url 'lender-home' %}">Lenders</a>
+						<a class="nav-item nav-link" href="{% url 'masterloanpackage_list' %}">Loan Packages</a>
+						<a class="nav-item nav-link" href="{% url 'plan-home' %}">Plans</a>
+						<a class="nav-item nav-link" href="{% url 'traffic-home' %}">Traffic</a>
+						<a class="nav-item nav-link" href="{% url 'costcode-home' %}">Cost Codes</a>
+						<a class="nav-item nav-link" href="{% url 'tieout_progress' %}">Tie Out 3</a>
+						<a class="nav-item nav-link" href="{% url 'proformamilestone-home' %}">Proforma</a>
+					</div>
+
+					<!-- Navbar Right Side -->
+					<div class="navbar-nav">
+
+						{% if user.is_authenticated %}
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Import
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{% url 'job-import' %}">Jobs</a>
+								<a class="dropdown-item" href="{% url 'goal-import' %}">Goals</a>
+								<a class="dropdown-item" href="{% url 'jobaddress-import' %}">Addresses</a>
+								<a class="dropdown-item" href="{% url 'traffic-import' %}">Traffic</a>
+								<a class="dropdown-item" href="{% url 'loantransaction-import' %}">Loan Transactions</a>
+								<a class="dropdown-item" href="{% url 'proformamilestonedetail-import' %}">Proforma Milestone Detail</a>
+								<a class="dropdown-item" href="{% url 'proformamilestone-import' %}">Proforma Milestones</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{% url 'importtask-home' %}">Import History</a>
+
+							</div>
+						</div>
+						<a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+						<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>			
+						{% else %}
+						<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+
+						{% endif %}
+					</div>
+
+				</div>
+			</div>
+		</nav>
+	</header>
+	<main role="main" class="container">
+	 	<div class="row">
+			{% if request.path == "/" %}
+	 			{# Style for home page #}
+				<div class="home">
+			{% endif %}
+				<div class="col-md-12 body">
+					{% if messages %}
+						{% for message in messages %}
+						<div class="alert alert-{{ message.tags }}">
+							{{ message }}
+						</div>
+						{% endfor %}
+					{% endif %}
+					{% if not request.path == "/" %}
+						<h1 id="headerText">{{page_title}}</h1>
+					{% endif %}
+					{% block content %}{% endblock %}
+				</div>
+			{% if current_page.is_home %}
+			</div>
+			{% endif %}
+
+		</div>
+		{# MODAL #}
+		<div class="modal fade" id="modal-item" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  {% if user.is_authenticated %}
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        {# This is where the form template (partial_create_item.html) is added #}
+		      </div>
+		    </div>
+		  {% else %}
+		    {# Security "no logon" message #}
+		    <div class="modal-dialog">
+		      <div class="modal-content">
+		        <div class="no-login">
+		          <h4>Sorry, you must be logged in to edit forms</h4>
+		        </div>
+		      </div>
+		    </div>
+		  {% endif %}
+		</div>
+	</main>
+
+	<!-- ADDITIONAL JAVASCRIPT -->
+
+	<!-- jQuery -->
+	<script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
+
+	<!-- JS Functions -->
+	<script type="text/javascript" src="{% static 'js/functions.js' %}"></script>
+
+	<!-- jQuery Confirm -->
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+	<!-- Popper.js -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+	<!-- Bootstrap -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<!-- Cookie code -->
+	<script type="text/javascript" src="{% static 'js/cookies.js' %}"></script>
+
+	<!-- On Load Jquery -->
+	<script type="text/javascript" src="{% static 'js/onLoad.js' %}"></script>
+	
+</body>
+
+</html>
+

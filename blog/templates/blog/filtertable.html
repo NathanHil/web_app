@@ -1,0 +1,19 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load django_tables2 %}
+{% load querystring from django_tables2 %}
+<!--
+<div style = 'padding-top: 24px'>
+	<a href="{% querystring '_export'='csv' %}">Download CSV</a>
+</div>
+-->
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+{% if filter %}
+    <form action="" method="get" class="form form-inline filter-form">
+        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_button 'filter' %}
+    </form>
+{% endif %}
+{% render_table table 'django_tables2/bootstrap4.html' %}
+{% endblock content %}

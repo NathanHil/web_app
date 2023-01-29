@@ -1,0 +1,17 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<h1>{{ page_title }}</h1>
+
+<ul>
+{% for job in job_list %}
+
+    <li>{{ job }}</li>
+
+{% endfor %}
+</ul>
+
+{% endblock content %}
+
+

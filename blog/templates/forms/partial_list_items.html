@@ -1,0 +1,14 @@
+{# Add filter #}
+{% load bootstrap4 %}
+{# Display the table #}
+{% if filter %}
+    <form action="" method="get" class="form form-inline table-filter">
+        {% bootstrap_form filter.form layout='inline' %}
+        {% bootstrap_button 'filter' %}
+    </form>
+{% endif %}
+{% if table_type == "subtable" and parent != '' %}
+<h5>{{parent}} — {{table_title}}</h5>
+{% endif %}
+{% load render_table from django_tables2 %}
+{% render_table table 'django_tables2/bootstrap4.html' %}

@@ -1,0 +1,127 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+{% load render_table from django_tables2 %}  
+
+<div style="font-size: 1.6rem; padding-bottom: 20px">
+<span> Revenue tieout for: {{job_number}}</span> </div>
+
+<p> <b> System Check: </b>Does revenue = base price + lot premium + upgrades - credits? If the difference is not equal to zero, it is indicative of a value error below</p>
+
+<table style="text-indent: 50px">
+  <tr style="border-bottom: 1px solid black;">
+  	<th></th>
+    <th>Category</th>
+    <th>Amount</th>
+  </tr>
+  <tr>
+    <td>+</td>
+    <td>Acctg Revenue</td>
+    <td>{{review_revenue}}</td>
+  </tr>
+  <tr>
+  	<td>-</td>
+    <td>Base Price</td>
+    <td>{{review_base_price}}</td>
+  </tr>
+    <tr>
+    	<td>-</td>
+    <td>Lot Premium</td>
+    <td>{{ review_lot_premium }}</td>
+  </tr>
+    <tr>
+    	<td>-</td>
+    <td>Upgrades Price</td>
+    <td>{{ review_upgrades }}</td>
+
+  </tr>
+    <tr>
+    	<td>+</td>
+    <td>Upgrades credits</td>
+    <td>{{ review_upgrades_credits }}</td>
+
+  </tr>
+
+    </tr>
+    
+    <tr style="border-top: 1px solid black">
+    	<td>=</td>
+    <td>Difference</td>
+    <td>{{ revenue_diff }}</td>
+
+  </tr>
+
+</table> <br>
+
+<p> <b> System Check: </b>Does acctg concession = sales simplicity concession? If the difference is not equal to zero, it is indicative of a value error below</p>
+
+<form method="post" action="{{url}}" id="{{page_name}}">
+{% csrf_token %}
+<table style="text-indent: 50px">
+  <tr style="border-bottom: 1px solid black;">
+  	<th> </th>
+    <th>Category</th>
+    <th>Amount</th>
+  </tr>
+  <tr>
+    <td>+</td>
+    <td>Acctg Concession</td>
+    <td>{{review_concessions}}</td>
+  </tr>
+  <tr>
+  	<td>-</td>
+    <td>SaleSimplicity Concession</td>
+    <td>{{review_price_incentive}}</td>
+  </tr>
+
+      </tr>
+    
+    <tr style="border-top: 1px solid black">
+      <td>=</td>
+    <td>Difference</td>
+    <td>{{ concession_diff }}</td>
+
+  </tr>
+
+
+
+</table> <br>
+
+
+
+<p> <b> User Check: </b>Using the closing statement and other detail provided, indicate if the items are complete, or flag and comment them</p>
+
+<table class="tieout_table">
+
+{{ form.management_form }}
+
+	{% for f in form.forms %}
+
+		<tr class="{% cycle 'row1' 'row2' %} form_row-{{ form.prefix }}">
+
+			{% for field in f.visible_fields %}
+
+			<td>
+				{# Include the hidden fields in the form #}
+				{% if forloop.first %}
+					{% for hidden in f.hidden_fields %}
+						{{ hidden }}
+					{% endfor %}
+				{% endif %}
+				{{ field.errors.as_ul }}
+				<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+				{{ field }}
+
+				
+			</td>
+			 
+			{% endfor %}
+		</tr>
+
+	{% endfor %}
+
+</table>
+<button type="submit" class="btn btn-primary">Complete Tieout</button>
+</form>
+{% endblock content %}

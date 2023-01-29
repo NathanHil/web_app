@@ -1,0 +1,10 @@
+{% extends "blog/base.html" %}
+{% block content %}
+{% load render_table from django_tables2 %}
+{% render_table table 'django_tables2/bootstrap4.html' %}
+<div style = "padding-top: 50px">
+
+	<a href="{% url 'phase-create' %}">Add a new phase</a>
+
+</div>
+{% endblock content %}

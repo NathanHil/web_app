@@ -1,0 +1,15 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+{% load querystring from django_tables2 %}
+<div style = 'padding-top: 24px'>
+	<a href="{% querystring '_export'='csv' %}">Download CSV</a>
+</div>
+{% load render_table from django_tables2 %}
+
+{% render_table table 'django_tables2/bootstrap4.html' %}
+
+{% endblock content %}
+
+

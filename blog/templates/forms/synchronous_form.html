@@ -1,0 +1,36 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<table>
+{{ form.management_form }}
+
+    {% for f in form.forms %}
+    
+            <tr class="{% cycle 'row1' 'row2' %} form_row-{{ form.prefix }}">
+
+                {% for field in f.visible_fields %}
+
+                <td>
+                    {# Include the hidden fields in the form #}
+                    {% if forloop.first %}
+                        {% for hidden in f.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                    {% endif %}
+                    {{ field.errors.as_ul }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    
+                </td>
+               
+                {% endfor %}
+            </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock content %}
+
+
+

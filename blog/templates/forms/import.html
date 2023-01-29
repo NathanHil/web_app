@@ -1,0 +1,39 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="import-form">
+    <h4>Import {{page_name}} Data</h4>
+    <form method="post" action="." enctype="multipart/form-data" class="js-import-form" >
+      {% csrf_token %}
+      <label for="importData">Choose CSV file</label>
+      <input type="file" name="importData" id="importData">
+
+      <p class="hint">Don't know the proper format? <a href="/{{page_name}}/template/" target="_blank">Download a template CSV file </a>for reference</p>
+      <label for="file-format">Please select format of file.</label>
+      <select name="file-format" class="form-control file-format">
+        <option selected>CSV</option>
+      </select>
+      <div class="modal-footer">
+        <button class="btn btn-primary js-submit-import" id="importFormSubmit" type="submit">Import</button>
+      </div>
+      <div id="importMessage">
+        <div id="errorBlock" style="display:block !important;">
+        {% if has_import_message %}
+          {% autoescape off %}
+            {{import_message}}
+          {% endautoescape %}
+          <a href="/importtask/" class="import_link">View the progress of your imports here</a>
+        {% endif %}
+        </div>
+        <div id="errorMessage">
+          {% if error_message %}
+          <div id="errorBlock" style="display:block !important;">
+            {% autoescape off %}
+              {{error_message}}
+            {% endautoescape %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock content %} 

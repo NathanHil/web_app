@@ -1,0 +1,6 @@
+{% for platplan in platplans %}
+<li>
+	<label for="id_platplans">
+		<input type="checkbox" name="platplans" value="{{ platplan.pk }}" class="form-control" id="id_plans_{{ platplan.pk }}">{{ platplan.description }}</label>
+</li>
+{% endfor %}

@@ -1,0 +1,66 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% load render_table from django_tables2 %}
+{% load static %}
+{% csrf_token %}
+
+{% block content %}
+{# TABLE #}
+<div class="container">
+  <div class="row">
+    {# Button to trigget "add form" actions #}
+    {% if user.is_authenticated %}
+      <div class="col-md-4 add-item-btns">
+      {% if not no_add %}
+        <button type="button"
+                class="btn btn-primary js-create-item" 
+                data-url="{{create_url}}" 
+                style="text-transform: uppercase;">
+          <i class="fas fa-plus"></i>
+          ADD {{ add_btn_name }}
+        </button>
+      {% endif %}
+      
+      {% if enable_import %}
+      <button type="button"
+              class="btn btn-link js-import btn-import" 
+              data-url="./import" 
+              style="width:100%;padding-bottom:0;">
+              <i class="fas fa-download"></i>
+        Import {{ page_title }} to table
+      </button>
+      {% endif %}
+
+      {% if enable_export %}
+      <a href="./export/">
+        <button type="button"
+              class="btn btn-link btn-export"  
+              style="width:100%;padding-top:0;">
+          <i class="fas fa-save"></i>
+            Export {{ page_title }} As CSV
+          </button>
+        </button>
+      </a>
+      {% endif %}
+
+      {% if export_data %}
+        {% for data in export_data %}
+           <a href={{data.url}}>
+          <button type="button"
+                class="btn btn-link btn-export"  
+                style="width:100%;padding-top:0;">
+            <i class="fas fa-save"></i>
+              Export {{ data.name }} As CSV
+            </button>
+          </button>
+        </a>
+        {% endfor %}
+
+      {% endif %}
+      </div>
+    {% endif %} 
+    {# Display the table #}
+    {% include 'forms/partial_list_items.html' %}
+  </div>
+</div>
+{% endblock %}

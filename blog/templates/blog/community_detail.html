@@ -1,0 +1,16 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<h1>{{ object.name }}</h1>
+<p>Sage id: {{ object.com_id }}</p>
+<p>Program id from Procore: {{ object.procore_id }}</p>
+<p>Abbreviation: {{ object.abbreviation }}</p>
+<p>Region: {{ object.region }}</p>
+<p>Vertical jobs setup in Sage: {{ job_count }}</p>
+<p>Plans: {{plans}}</p>
+
+<form method="get" action="{% url 'costcode-sage_import' object.id %}">
+  {% csrf_token %}
+	<button  type="submit">Get zero estimate import file</button>
+</form>
+
+{% endblock content %} 

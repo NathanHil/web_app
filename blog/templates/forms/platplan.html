@@ -1,0 +1,52 @@
+<form method="post" action="{{url}}" class="js-item-update-form" id="{{page_name}}">
+  {% csrf_token %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true"><i class="fas fa-times"></i></span>
+    </button>
+    <h4 class="modal-title">Update {{page_name}} {{record.id}}</h4>
+  </div>
+  <div class="modal-body">
+<table>
+{% load widget_tweaks %}
+{% for field in mlpform%}
+  <div class="form-group{% if field.errors %} has-error{% endif %}">
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% render_field field class="form-control" %}
+    {% for error in field.errors %}
+      <p class="help-block" style="color:red;">{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endfor %}
+<table>
+{{ form.management_form }}
+
+    {% for f in form.forms %}
+    
+            <tr class="{% cycle 'row1' 'row2' %} form_row-{{ form.prefix }}">
+
+                {% for field in f.visible_fields %}
+
+                <td>
+                    {# Include the hidden fields in the form #}
+                    {% if forloop.first %}
+                        {% for hidden in f.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+                    {% endif %}
+                    {{ field.errors.as_ul }}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    
+                </td>
+               
+                {% endfor %}
+            </tr>
+    {% endfor %}
+</table>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default close-btn" data-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-primary">Update {{page_name}}</button>
+  </div>
+</form>
+

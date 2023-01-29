@@ -1,0 +1,5 @@
+id,base_price,lot_cost,lot_fmv,lot_release,approved_commitment,receive_cash_back,standard,lender_id,phase_id,plan_id,approval_date,est_commitment,status,submission_date,uses_master_appraisal,last_update_date,user_id
+78,439900,33203,80000,0,0,0,Classic,4,2,37,NULL,0,NULL,NULL,1,"2021-07-13 22:32:48.211559",20
+79,459900,33203,100000,0,0,0,Classic,4,2,30,NULL,0,NULL,NULL,1,"2021-07-13 22:33:20.565536",20
+80,509900,41504,100000,0,0,0,Classic,4,2,31,NULL,0,NULL,NULL,1,"2021-07-13 22:33:34.051587",20
+81,439900,28223,80000,0,0,0,Classic,4,2,68,NULL,0,NULL,NULL,1,"2021-05-27 21:55:35.733260",NULL

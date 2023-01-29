@@ -1,0 +1,6 @@
+{% for communityplan in communityplans %}
+<li>
+	<label for="id_communityplans">
+		<input type="checkbox" name="communityplans" value="{{ communityplan.pk }}" class="form-control" id="id_plans_{{ communityplan.pk }}">{{ communityplan.name }}</label>
+</li>
+{% endfor %}

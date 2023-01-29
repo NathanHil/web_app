@@ -1,0 +1,68 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+{% load render_table from django_tables2 %}
+
+<div class='tieout_title'>
+	<h2>tieout 3 sheet for: {{job_number}}</h2>
+	<a href="https://docs.google.com/document/d/11llQzzEP-wppEPxjYGSFYOHdMbZvcS5H/edit?usp=sharing&ouid=116722935363466725078&rtpof=true&sd=true" target="_blank" title="View Tieout 3 documentation" class="info_btn">
+		<button class="btn info_btn">
+			<i class="fas fa-info"></i>
+		</button>
+	</a>
+	<a class="print_tieout" title="Print tieout 3 sheet">
+		<button class="btn print_btn" onclick="window.print();return false;">
+			<i class="fas fa-print"></i>
+		</button>
+	</a>
+</div>
+<div class="tieout_loading_block"></div>
+{# {{cat_indexes}} #}
+<form method="post" action="{{url}}" id="{{page_name}}">
+{% csrf_token %}
+<button type="submit" class="btn btn-primary submit_tieout">Update Tieout</button>
+<table class="tieout_table">
+
+{{ form.management_form }}
+	
+	{% for f in form.forms %}
+
+		{% if forloop.first %}
+		<tbody class="accordion job_details" name="Job Details">
+		{% elif forloop.counter0 == cat_indexes.revenue %}
+		<tbody class="accordion revenue" name="Revenue">
+		{% elif forloop.counter0 == cat_indexes.cost %}
+		<tbody class="accordion cost" name="Cost">
+		{% elif forloop.counter0 == cat_indexes.analysis %}
+		<tbody class="accordion analysis" name="Analysis">
+		{% endif %}
+
+			<tr class="{% cycle 'row1' 'row2' %} form_row_{{ forloop.counter0 }} form_row">
+
+				{% for field in f.visible_fields %}
+
+				<td class='{{ field.id_for_label }}'>
+					{# Include the hidden fields in the form #}
+					{% if forloop.first %}
+						{% for hidden in f.hidden_fields %}
+							{{ hidden }}
+						{% endfor %}
+					{% endif %}
+					{{ field.errors }}
+					<label for="{{ field.id_for_label }}">{{ field.label }}</label>
+					{{ field }}
+				</td>
+				 
+				{% endfor %}
+			</tr>
+		{% if forloop.counter0 == cat_indexes.revenue|add:'-1' or forloop.counter0 == cat_indexes.cost|add:'-1' or forloop.counter0 == cat_indexes.analysis|add:'-1' %}
+		</tbody>
+		{% endif %}
+		{{ f.errors }}
+	{% endfor %}
+
+</table>
+</form>
+
+{% endblock content %}
